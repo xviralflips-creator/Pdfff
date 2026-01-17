@@ -4,27 +4,34 @@ export interface StoryPage {
   imagePrompt: string;
   imageUrl: string;
   caption: string;
-  title?: string;
+  audioUrl?: string;
+  videoUrl?: string;
 }
+
+export type ProjectType = 'story' | 'video' | 'audio' | 'ebook';
 
 export interface Project {
   id: string;
   title: string;
   genre: string;
   style: string;
+  type: ProjectType;
   pages: StoryPage[];
   createdAt: number;
   updatedAt: number;
+  isPublished?: boolean;
+  price?: number;
 }
 
-export type View = 'landing' | 'dashboard' | 'creator' | 'editor' | 'admin' | 'library';
+export type View = 'landing' | 'dashboard' | 'creator' | 'editor' | 'video-studio' | 'audio-studio' | 'tools' | 'marketplace' | 'admin' | 'library';
 
 export enum ProjectGenre {
   KIDS = 'Kids',
   HORROR = 'Horror',
   SCIFI = 'Sci-Fi',
   EDUCATION = 'Education',
-  FANTASY = 'Fantasy'
+  FANTASY = 'Fantasy',
+  CINEMATIC = 'Cinematic'
 }
 
 export enum ArtStyle {
@@ -32,5 +39,6 @@ export enum ArtStyle {
   COMIC = 'Comic Book',
   REALISTIC = 'Cinematic Realistic',
   WATERCOLOR = 'Watercolor Painting',
-  PIXEL = '8-bit Pixel Art'
+  PIXEL = '8-bit Pixel Art',
+  VEO_CINEMATIC = 'Veo Cinematic'
 }
