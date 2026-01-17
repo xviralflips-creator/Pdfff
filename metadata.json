@@ -1,0 +1,7 @@
+{
+  "name": "NanoPDF Studio",
+  "description": "AI-powered platform to generate image stories and e-books using Gemini models, with full PDF export capabilities.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
