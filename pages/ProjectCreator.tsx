@@ -5,6 +5,9 @@ import { Project, ProjectGenre, ArtStyle, StoryPage } from '../types';
 import { generateStoryOutline, generateImage } from '../geminiService';
 import { Zap, Loader2, Sparkles, Wand2, ChevronRight, Layout, BookOpen, Film, Plus } from 'lucide-react';
 
+// Use any to bypass Framer Motion property type errors in this environment
+const MotionDiv = motion.div as any;
+
 interface ProjectCreatorProps {
   onCreate: (p: Project) => void;
   credits: number;
@@ -112,7 +115,8 @@ const ProjectCreator: React.FC<ProjectCreatorProps> = ({ onCreate, credits, onCo
 
         <div className="p-12">
           {loading ? (
-            <motion.div 
+            /* Fix motion.div error */
+            <MotionDiv 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               className="text-center py-20 space-y-8"
@@ -128,7 +132,7 @@ const ProjectCreator: React.FC<ProjectCreatorProps> = ({ onCreate, credits, onCo
                 </div>
                 <p className="text-slate-500 text-sm font-medium tracking-wide">GEMINI NANO-BANANA ENGINE • ACTIVE</p>
               </div>
-            </motion.div>
+            </MotionDiv>
           ) : (
             <div className="space-y-10">
               {step === 1 ? (

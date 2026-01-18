@@ -23,7 +23,15 @@ export interface Project {
   price?: number;
 }
 
-export type View = 'landing' | 'dashboard' | 'creator' | 'editor' | 'video-studio' | 'audio-studio' | 'tools' | 'marketplace' | 'admin' | 'library';
+export interface Asset {
+  id: string;
+  type: 'image' | 'video';
+  url: string;
+  prompt: string;
+  createdAt: number;
+}
+
+export type View = 'landing' | 'dashboard' | 'creator' | 'editor' | 'video-studio' | 'audio-studio' | 'lab' | 'marketplace' | 'admin' | 'library';
 
 export enum ProjectGenre {
   KIDS = 'Kids',

@@ -36,9 +36,18 @@ export const generateStoryOutline = async (theme: string, genre: string, pageCou
   return JSON.parse(response.text || '{}');
 };
 
-export const generateImage = async (prompt: string, style: ArtStyle): Promise<string> => {
+export const upscalePrompt = async (simplePrompt: string) => {
   const ai = getAI();
-  const enhancedPrompt = `Art style: ${style}. ${prompt}. High quality, detailed, vibrant colors, professional digital art.`;
+  const response = await ai.models.generateContent({
+    model: 'gemini-3-flash-preview',
+    contents: `Transform this simple image prompt into a highly detailed, professional artistic prompt for a high-end AI image generator. Simple prompt: "${simplePrompt}". Respond with only the enhanced prompt text.`,
+  });
+  return response.text;
+};
+
+export const generateImage = async (prompt: string, style: string): Promise<string> => {
+  const ai = getAI();
+  const enhancedPrompt = `Art style: ${style}. ${prompt}. High quality, detailed, professional digital art.`;
   
   const response = await ai.models.generateContent({
     model: 'gemini-2.5-flash-image',
@@ -58,13 +67,12 @@ export const generateImage = async (prompt: string, style: ArtStyle): Promise<st
     }
   }
   
-  throw new Error("Neural image synthesis failed. Please try a different prompt.");
+  throw new Error("Neural image synthesis failed.");
 };
 
 export const generateVideo = async (prompt: string, base64Image?: string): Promise<string> => {
   const ai = getAI();
   
-  // Prepare image input if provided (strip data URL prefix)
   const imageInput = base64Image ? {
     imageBytes: base64Image.split(',')[1],
     mimeType: 'image/png'
@@ -81,16 +89,14 @@ export const generateVideo = async (prompt: string, base64Image?: string): Promi
     }
   });
 
-  // Long-poll the operation until completion
   while (!operation.done) {
     await new Promise(resolve => setTimeout(resolve, 8000));
     operation = await ai.operations.getVideosOperation({ operation: operation });
   }
 
   const downloadLink = operation.response?.generatedVideos?.[0]?.video?.uri;
-  if (!downloadLink) throw new Error("Video export failed - no download link returned.");
+  if (!downloadLink) throw new Error("Video export failed.");
 
-  // Fetching the video bytes requires the API key appended
   const response = await fetch(`${downloadLink}&key=${process.env.API_KEY}`);
   if (!response.ok) throw new Error(`Video download failed: ${response.statusText}`);
   
@@ -102,7 +108,7 @@ export const generateSpeech = async (text: string): Promise<string> => {
   const ai = getAI();
   const response = await ai.models.generateContent({
     model: "gemini-2.5-flash-preview-tts",
-    contents: [{ parts: [{ text: `Perform professional narration for this story caption with appropriate emotion: ${text}` }] }],
+    contents: [{ parts: [{ text: `Narration: ${text}` }] }],
     config: {
       responseModalities: [Modality.AUDIO],
       speechConfig: {

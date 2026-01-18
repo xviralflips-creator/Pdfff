@@ -5,6 +5,9 @@ import { Project } from '../types';
 import { generateVideo } from '../geminiService';
 import { Play, Video as VideoIcon, Loader2, Sparkles, Film, CheckCircle, Zap, AlertCircle, Key, Info } from 'lucide-react';
 
+// Use any to bypass Framer Motion property type errors in this environment
+const MotionDiv = motion.div as any;
+
 interface VideoStudioProps {
   projects: Project[];
   onUpdate: (id: string, updates: Partial<Project>) => void;
@@ -15,15 +18,13 @@ interface VideoStudioProps {
 
 const VIDEO_CREDIT_COST = 1200;
 
-// Correctly augment the global Window interface to match existing AIStudio type
+// Correctly augment the global Window interface to match existing internal declarations
 declare global {
-  interface AIStudio {
-    hasSelectedApiKey: () => Promise<boolean>;
-    openSelectKey: () => Promise<void>;
-  }
-
   interface Window {
-    aistudio: AIStudio;
+    aistudio: {
+      hasSelectedApiKey: () => Promise<boolean>;
+      openSelectKey: () => Promise<void>;
+    };
   }
 }
 
@@ -168,7 +169,8 @@ const VideoStudio: React.FC<VideoStudioProps> = ({ projects, onUpdate, credits, 
         <div className="md:col-span-3 min-h-[600px]">
           <AnimatePresence mode="wait">
             {selectedProject ? (
-              <motion.div 
+              /* Fix motion.div error */
+              <MotionDiv 
                 key={selectedProject.id}
                 initial={{ opacity: 0, scale: 0.98, y: 10 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -279,9 +281,10 @@ const VideoStudio: React.FC<VideoStudioProps> = ({ projects, onUpdate, credits, 
                     ))}
                   </div>
                 </div>
-              </motion.div>
+              </MotionDiv>
             ) : (
-              <motion.div 
+              /* Fix motion.div error */
+              <MotionDiv 
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 className="h-full min-h-[600px] flex flex-col items-center justify-center bg-slate-900 rounded-[4rem] border-2 border-dashed border-slate-800 group"
@@ -296,7 +299,7 @@ const VideoStudio: React.FC<VideoStudioProps> = ({ projects, onUpdate, credits, 
                     <FeatureBadge label="Frame Rate" val="60 FPS" />
                     <FeatureBadge label="Model" val="VEO 3.1" />
                  </div>
-              </motion.div>
+              </MotionDiv>
             )}
           </AnimatePresence>
         </div>
