@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Project } from '../types';
@@ -26,8 +25,8 @@ declare global {
   }
 
   interface Window {
-    // Remove readonly to avoid "identical modifiers" error with existing environment declarations
-    aistudio: AIStudio;
+    // Added readonly modifier to match the existing global declaration and avoid "identical modifiers" error
+    readonly aistudio: AIStudio;
   }
 }
 
@@ -172,7 +171,7 @@ const VideoStudio: React.FC<VideoStudioProps> = ({ projects, onUpdate, credits, 
         <div className="md:col-span-3 min-h-[600px]">
           <AnimatePresence mode="wait">
             {selectedProject ? (
-              /* Fix motion.div error */
+              /* Fix motion.div error by adding MotionDiv alias and proper initialization */
               <MotionDiv 
                 key={selectedProject.id}
                 initial={{ opacity: 0, scale: 0.98, y: 10 }}
@@ -286,7 +285,7 @@ const VideoStudio: React.FC<VideoStudioProps> = ({ projects, onUpdate, credits, 
                 </div>
               </MotionDiv>
             ) : (
-              /* Fix motion.div error */
+              /* Fix motion.div error by using MotionDiv alias */
               <MotionDiv 
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
