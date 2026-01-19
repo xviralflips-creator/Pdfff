@@ -178,7 +178,7 @@ const App: React.FC = () => {
               {currentView === 'dashboard' && <Dashboard projects={projects} onNew={() => setCurrentView('creator')} onEdit={(p) => { setActiveProject(p); setCurrentView('editor'); }} />}
               {currentView === 'creator' && <ProjectCreator onCreate={createProject} credits={credits} onConsumeCredits={consumeCredits} onError={setError} />}
               {currentView === 'lab' && <CreativeLab assets={assets} onSaveAsset={saveAsset} credits={credits} onConsumeCredits={consumeCredits} onError={setError} />}
-              {currentView === 'editor' && activeProject && <Editor project={activeProject} onUpdate={updateProject} onDelete={() => { storage.saveProjects(projects.filter(p => p.id !== activeProject.id)); setProjects(projects.filter(p => p.id !== activeProject.id)); setCurrentView('dashboard'); }} />}
+              {currentView === 'editor' && activeProject && <Editor project={activeProject} onUpdate={updateProject} onDelete={() => { storage.saveProjects(projects.filter(p => p.id !== activeProject.id)); setProjects(projects.filter(p => p.id !== activeProject.id)); setCurrentView('dashboard'); }} credits={credits} onConsumeCredits={consumeCredits} onError={setError} />}
               {currentView === 'video-studio' && <VideoStudio projects={projects} onUpdate={updateProject} credits={credits} onConsumeCredits={consumeCredits} onError={setError} />}
               {currentView === 'store' && <Store credits={credits} onPurchase={addCredits} onSubscribe={updateSub} sub={subscription} />}
               {currentView === 'ads-gen' && <AdsGenerator credits={credits} onConsumeCredits={consumeCredits} onError={setError} onSaveAsset={saveAsset} />}
