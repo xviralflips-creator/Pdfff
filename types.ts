@@ -8,7 +8,7 @@ export interface StoryPage {
   videoUrl?: string;
 }
 
-export type ProjectType = 'story' | 'video' | 'audio' | 'ebook';
+export type ProjectType = 'story' | 'video' | 'audio' | 'ebook' | 'ad';
 
 export interface Project {
   id: string;
@@ -31,7 +31,12 @@ export interface Asset {
   createdAt: number;
 }
 
-export type View = 'landing' | 'dashboard' | 'creator' | 'editor' | 'video-studio' | 'audio-studio' | 'lab' | 'marketplace' | 'admin' | 'library';
+export interface Subscription {
+  tier: 'free' | 'pro' | 'elite';
+  expiresAt?: number;
+}
+
+export type View = 'landing' | 'dashboard' | 'creator' | 'editor' | 'video-studio' | 'audio-studio' | 'lab' | 'marketplace' | 'admin' | 'library' | 'store' | 'ads-gen' | 'character-forge';
 
 export enum ProjectGenre {
   KIDS = 'Kids',
@@ -39,7 +44,8 @@ export enum ProjectGenre {
   SCIFI = 'Sci-Fi',
   EDUCATION = 'Education',
   FANTASY = 'Fantasy',
-  CINEMATIC = 'Cinematic'
+  CINEMATIC = 'Cinematic',
+  MARKETING = 'Marketing'
 }
 
 export enum ArtStyle {
@@ -48,5 +54,6 @@ export enum ArtStyle {
   REALISTIC = 'Cinematic Realistic',
   WATERCOLOR = 'Watercolor Painting',
   PIXEL = '8-bit Pixel Art',
-  VEO_CINEMATIC = 'Veo Cinematic'
+  VEO_CINEMATIC = 'Veo Cinematic',
+  UGC_AD = 'Authentic UGC'
 }

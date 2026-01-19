@@ -20,11 +20,13 @@ const VIDEO_CREDIT_COST = 1200;
 
 // Correctly augment the global Window interface to match existing internal declarations
 declare global {
+  interface AIStudio {
+    hasSelectedApiKey: () => Promise<boolean>;
+    openSelectKey: () => Promise<void>;
+  }
+
   interface Window {
-    aistudio: {
-      hasSelectedApiKey: () => Promise<boolean>;
-      openSelectKey: () => Promise<void>;
-    };
+    readonly aistudio: AIStudio;
   }
 }
 

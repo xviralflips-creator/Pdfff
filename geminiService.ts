@@ -2,7 +2,6 @@
 import { GoogleGenAI, Type, Modality } from "@google/genai";
 import { ProjectGenre, ArtStyle } from "./types";
 
-// Create a fresh instance for every call to ensure the latest API key is used
 const getAI = () => new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 export const generateStoryOutline = async (theme: string, genre: string, pageCount: number) => {
@@ -33,6 +32,26 @@ export const generateStoryOutline = async (theme: string, genre: string, pageCou
     }
   });
 
+  return JSON.parse(response.text || '{}');
+};
+
+export const generateAdCopy = async (product: string, targetAudience: string) => {
+  const ai = getAI();
+  const response = await ai.models.generateContent({
+    model: 'gemini-3-flash-preview',
+    config: { responseMimeType: 'application/json' },
+    contents: `Generate a high-converting UGC Ad campaign for: Product: "${product}", Target: "${targetAudience}". Provide a Hook, Body, and Call to Action, plus a visual prompt for the background image.`,
+  });
+  return JSON.parse(response.text || '{}');
+};
+
+export const generateCharacterForge = async (description: string) => {
+  const ai = getAI();
+  const response = await ai.models.generateContent({
+    model: 'gemini-3-flash-preview',
+    config: { responseMimeType: 'application/json' },
+    contents: `Create a professional character profile based on: "${description}". Include: Name, Backstory, Physical Traits, and a precise image generation prompt for a consistent look.`,
+  });
   return JSON.parse(response.text || '{}');
 };
 
@@ -85,7 +104,7 @@ export const generateVideo = async (prompt: string, base64Image?: string): Promi
     config: {
       numberOfVideos: 1,
       resolution: '720p',
-      aspectRatio: '16:9'
+      aspectRatio: '9:16'
     }
   });
 
