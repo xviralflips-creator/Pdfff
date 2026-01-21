@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@google/genai": "^1.37.0",
+    "firebase": "^10.8.0",
     "framer-motion": "^12.4.7",
     "lucide-react": "^0.462.0",
     "react": "^19.0.0",
