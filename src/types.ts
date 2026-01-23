@@ -36,7 +36,7 @@ export interface Subscription {
   expiresAt?: number;
 }
 
-export type View = 'landing' | 'dashboard' | 'creator' | 'editor' | 'video-studio' | 'audio-studio' | 'lab' | 'marketplace' | 'admin' | 'library' | 'store' | 'ads-gen' | 'character-forge';
+export type View = 'landing' | 'dashboard' | 'creator' | 'editor' | 'audio-studio' | 'lab' | 'marketplace' | 'admin' | 'library' | 'store' | 'ads-gen' | 'character-forge';
 
 export enum ProjectGenre {
   KIDS = 'Kids',
